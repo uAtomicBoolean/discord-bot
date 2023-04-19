@@ -101,6 +101,7 @@ export class Bot extends Client {
 			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
 			.map(filent => filent.name);
 
+		this.log('Chargement des commandes !');
 		for (const command of commands) {
 			this.log(`\t commande : ${command}`);
 			const data = require(`${commandsPath}/${command}`);
@@ -112,12 +113,13 @@ export class Bot extends Client {
 	 * Charge les évènements d'un plugin dans le bot.
 	 */
 	loadEvents() {
-		const eventsPath = `${this._srcPath}/commands`;
+		const eventsPath = `${this._srcPath}/events`;
 
 		const events = fs.readdirSync(eventsPath, { withFileTypes: true })
 			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
 			.map(filent => filent.name);
 
+		this.log('Chargement des events !');
 		for (const event of events) {
 			this.log(`\t évènement : ${event}`);
 
