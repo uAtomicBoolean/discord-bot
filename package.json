@@ -1,0 +1,38 @@
+{
+	"name": "francebot",
+	"version": "1.0.0",
+	"description": "![logo](https://user-images.githubusercontent.com/49253492/184919620-49b4ffd3-983d-4aa3-baef-1542c66ff9b6.png)",
+	"main": "src/index.ts",
+	"scripts": {
+		"build": "tsc && tsc-alias",
+		"start": "npm run build && node dist/index.js",
+		"dev": "ts-node-dev -r tsconfig-paths/register src",
+		"up_cmd": "npm run build && node dist/index.js -l",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/uAtomicBoolean/FranceBot.git"
+	},
+	"author": "uAtomicBoolean",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/uAtomicBoolean/FranceBot/issues"
+	},
+	"homepage": "https://github.com/uAtomicBoolean/FranceBot#readme",
+	"dependencies": {
+		"ansicolors": "^0.3.2",
+		"discord.js": "^14.7.1",
+		"node-cache": "^5.1.2"
+	},
+	"devDependencies": {
+		"@types/node": "^18.11.17",
+		"@typescript-eslint/eslint-plugin": "^5.48.0",
+		"@typescript-eslint/parser": "^5.48.0",
+		"eslint": "^8.29.0",
+		"ts-node-dev": "^2.0.0",
+		"tsc-alias": "^1.8.2",
+		"tsconfig-paths": "^4.1.1",
+		"typescript": "^4.9.4"
+	}
+}
