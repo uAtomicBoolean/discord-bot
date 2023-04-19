@@ -98,9 +98,7 @@ export class Bot extends Client {
 		// On filtre pour ne pas travailler sur les fichiers .map.
 		// Ces fichiers sont utilisés par le débugger de Typescript.
 		const commands = fs.readdirSync(commandsPath, { withFileTypes: true })
-			.filter(
-				filent => filent.isFile() && !filent.name.endsWith('.map') && !(filent.name === '.gitkeep'),
-			)
+			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
 			.map(filent => filent.name);
 
 		for (const command of commands) {
@@ -117,9 +115,7 @@ export class Bot extends Client {
 		const eventsPath = `${this._srcPath}/commands`;
 
 		const events = fs.readdirSync(eventsPath, { withFileTypes: true })
-			.filter(
-				filent => filent.isFile() && !filent.name.endsWith('.map') && !(filent.name === '.gitkeep'),
-			)
+			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
 			.map(filent => filent.name);
 
 		for (const event of events) {
