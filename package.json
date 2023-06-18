@@ -1,7 +1,7 @@
 {
-	"name": "francebot",
+	"name": "discord-bot-template",
 	"version": "1.0.0",
-	"description": "![logo](https://user-images.githubusercontent.com/49253492/184919620-49b4ffd3-983d-4aa3-baef-1542c66ff9b6.png)",
+	"description": "",
 	"main": "src/index.ts",
 	"scripts": {
 		"build": "tsc && tsc-alias",
