@@ -16,6 +16,9 @@ export class Bot extends Client {
 	private static readonly _srcPath = `${__dirname}/..`;
 
 	public commands: commandsArray;
+
+	// A simple cache usefull to store temporary data.
+	// It is configured to store the data for 1 day before deleting them.
 	public readonly cache: typeof NodeCache;
 
 	public customAttributes: { [key: string]: unknown };

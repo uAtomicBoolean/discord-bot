@@ -1,5 +1,5 @@
 # discord-bot-template 
 
-Un template pour des bots discord simple.  
-Il vaut mieux donc utiliser ce template si le bot ne sera axé autour que d'une fonctionnalité (ex : bot de musique).  
-Il faut aussi penser à modifier le contenu du package.json pour qu'il corresponde au nouveau repo.  
+A simple discord bot template.  
+Don't forget to install the necessary packages with `npm install` and to update them with `npm update`.  
+You should also change the name, description, author and repo link in the `package.json` and `package-lock.json` files.  
