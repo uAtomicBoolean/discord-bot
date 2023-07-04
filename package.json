@@ -1,7 +1,7 @@
 {
 	"name": "discord-bot-template",
 	"version": "1.0.0",
-	"description": "Add your description here.",
+	"description": "Add your description here (and don't forget to change the author in the package.json file).",
 	"main": "src/index.ts",
 	"scripts": {
 		"build": "tsc && tsc-alias",
