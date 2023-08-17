@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { discordId } from '@lib/types';
 import { commandsArray } from '@lib/types';
+import { baseGuildId } from '@src/config.json';
 import { green, yellow, red } from 'ansicolors';
 import { Client, ClientOptions, Collection, ApplicationCommandDataResolvable, REST, Routes } from 'discord.js';
 
@@ -15,12 +16,11 @@ export class Bot extends Client {
 	// not src (and the opposite) when running the code after compilation.
 	private static readonly _srcPath = `${__dirname}/..`;
 
-	public commands: commandsArray;
-
 	// A simple cache usefull to store temporary data.
 	// It is configured to store the data for 1 day before deleting them.
 	public readonly cache: typeof NodeCache;
 
+	public commands: commandsArray;
 	public customAttributes: { [key: string]: unknown };
 
 
@@ -42,6 +42,9 @@ export class Bot extends Client {
 	async start(token: string) {
 		this.log('Starting the bot.');
 		await super.login(token);
+		this.log('Uploading the commands to the base guild.');
+		this.log('To upload the commands to all the guilds, use the command "/sync_commands" or start the bot with the -L parameter.');
+		await this.uploadCommands(baseGuildId);
 	}
 
 	/* ----------------------------------------------- */

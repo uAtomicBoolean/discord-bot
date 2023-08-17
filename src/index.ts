@@ -16,7 +16,7 @@ const client = new Bot({
 (async () => {
 	await client.start(token);
 
-	if (process.argv.includes('-l')) {
-		await client.uploadCommands(guildId);
+	if (process.argv.includes('-L')) {
+		await client.uploadCommands();
 	}
 })();
