@@ -12,14 +12,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/uAtomicBoolean/FranceBot.git"
+		"url": "git+https://github.com/uAtomicBoolean/discord-bot.git"
 	},
 	"author": "uAtomicBoolean",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/uAtomicBoolean/FranceBot/issues"
+		"url": "https://github.com/uAtomicBoolean/discord-bot/issues"
 	},
-	"homepage": "https://github.com/uAtomicBoolean/FranceBot#readme",
+	"homepage": "https://github.com/uAtomicBoolean/discord-bot#readme",
 	"dependencies": {
 		"ansicolors": "^0.3.2",
 		"discord.js": "^14.7.1",
