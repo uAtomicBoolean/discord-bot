@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "tsc && tsc-alias",
 		"start": "npm run build && node dist/index.js",
-		"dev": "ts-node-dev -r tsconfig-paths/register src",
+		"dev": "ts-node-dev -r tsconfig-paths/register src | npx pino-pretty",
 		"up_cmd": "npm run build && node dist/index.js -l",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -23,13 +23,16 @@
 	"dependencies": {
 		"ansicolors": "^0.3.2",
 		"discord.js": "^14.7.1",
-		"node-cache": "^5.1.2"
+		"dotenv": "^16.3.1",
+		"node-cache": "^5.1.2",
+		"pino": "^8.15.1"
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.17",
 		"@typescript-eslint/eslint-plugin": "^5.48.0",
 		"@typescript-eslint/parser": "^5.48.0",
 		"eslint": "^8.29.0",
+		"pino-pretty": "^10.2.0",
 		"ts-node-dev": "^2.0.0",
 		"tsc-alias": "^1.8.2",
 		"tsconfig-paths": "^4.1.1",
