@@ -21,8 +21,8 @@ export class Bot extends Client {
 	// Logger for the bot.
 	public readonly logger = pino({});
 
+	// Array used to store the commands and their handlers.
 	public commands: commandsArray;
-	public customAttributes: { [key: string]: unknown };
 
 
 	constructor(options: ClientOptions) {
