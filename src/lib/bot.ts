@@ -2,7 +2,6 @@ import fs from 'fs';
 import pino from 'pino';
 import { discordId } from '@lib/types';
 import { commandsArray } from '@lib/types';
-import { green, yellow, red } from 'ansicolors';
 import { Client, ClientOptions, Collection, ApplicationCommandDataResolvable, REST, Routes } from 'discord.js';
 
 
@@ -30,7 +29,6 @@ export class Bot extends Client {
 
 		this.commands = new Collection();
 		this.cache = new NodeCache({ stdTTL: 86400 });
-		this.customAttributes = {};
 
 		this.loadCommands();
 		this.loadEvents();
