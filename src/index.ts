@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { Bot } from '@lib/bot';
 import { GatewayIntentBits, Partials } from 'discord.js';
 
-// TODO Add your .env path here.
+// TODO Add your .env path here (ex: src/.env.dev).
 dotenv.config({ path: '' });
 
 
