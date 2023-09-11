@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
 import { Bot } from '@lib/bot';
-import { token } from '@src/config.json';
 import { GatewayIntentBits, Partials } from 'discord.js';
+
+// TODO Add your .env path here.
+dotenv.config({ path: '' });
 
 
 const client = new Bot({
@@ -14,7 +17,7 @@ const client = new Bot({
 
 
 (async () => {
-	await client.start(token);
+	await client.start();
 
 	if (process.argv.includes('-L')) {
 		await client.uploadCommands();

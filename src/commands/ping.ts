@@ -19,6 +19,5 @@ export const data = new SlashCommandBuilder()
  * @param client The bot's client.
  */
 export async function execute(inter: CommandInteraction, client: Bot) {
-	await inter.reply(`Pong ${inter.user} !`)
-		.catch(error => client.logErrCommande('ping', error));
+	await inter.reply(`Pong ${inter.user} !`).catch();
 }

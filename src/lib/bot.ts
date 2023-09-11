@@ -1,7 +1,7 @@
 import fs from 'fs';
+import pino from 'pino';
 import { discordId } from '@lib/types';
 import { commandsArray } from '@lib/types';
-import { baseGuildId } from '@src/config.json';
 import { green, yellow, red } from 'ansicolors';
 import { Client, ClientOptions, Collection, ApplicationCommandDataResolvable, REST, Routes } from 'discord.js';
 
@@ -10,8 +10,6 @@ const NodeCache = require('node-cache');
 
 
 export class Bot extends Client {
-	static readonly LOG_LEVELS = ['INFO', 'WARNING', 'ERROR'];
-
 	// This variable is necessary to load the events and commands from dist and
 	// not src (and the opposite) when running the code after compilation.
 	private static readonly _srcPath = `${__dirname}/..`;
@@ -19,6 +17,9 @@ export class Bot extends Client {
 	// A simple cache usefull to store temporary data.
 	// It is configured to store the data for 1 day before deleting them.
 	public readonly cache: typeof NodeCache;
+
+	// Logger for the bot.
+	public readonly logger = pino({});
 
 	public commands: commandsArray;
 	public customAttributes: { [key: string]: unknown };
@@ -37,58 +38,13 @@ export class Bot extends Client {
 
 	/**
 	 * Starts the bot with a log.
-	 * @param token The bot's token.
 	 */
-	async start(token: string) {
-		this.log('Starting the bot.');
-		await super.login(token);
-		this.log('Uploading the commands to the base guild.');
-		this.log('To upload the commands to all the guilds, use the command "/sync_commands" or start the bot with the -L parameter.');
-		await this.uploadCommands(baseGuildId);
-	}
-
-	/* ----------------------------------------------- */
-	/* LOGGING                                         */
-	/* ----------------------------------------------- */
-	/**
-	 * Generate the colored text from the text and the log level.
-	 * @param level The log level (0=OK, 1=WARNING, 2=ERROR)
-	 * @returns The colored text.
-	 */
-	_getLevelTxt(level: number): string {
-		switch (level) {
-			case 0:
-				return green(Bot.LOG_LEVELS[level]);
-			case 1:
-				return yellow(Bot.LOG_LEVELS[level]);
-			case 2:
-				return red(Bot.LOG_LEVELS[level]);
-			default:
-				return 'UNKNOWN';
-		}
-	}
-
-	/**
-	 * Display a log in the console.
-	 * @param text The log message.
-	 * @param level The log level (default = 0).
-	 */
-	log(text: string, level: number = 0) {
-		const date = new Date();
-		const dateFormat = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} `
-			+ `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:`
-			+ `${String(date.getSeconds()).padStart(2, '0')}`;
-		console.log(`${dateFormat} ${this._getLevelTxt(level)} : ${text}`);
-	}
-
-	/**
-	 * Display a log for an error that occured in a command.
-	 * @param cmdName The command's name.
-	 * @param error The error.
-	 */
-	logErrCommande(cmdName: string, error: unknown) {
-		this.log(`An error occured in the command "${cmdName}"!`, 1);
-		console.log(error);
+	async start() {
+		this.logger.info('Starting the bot.');
+		await super.login(process.env.TOKEN);
+		this.logger.info('Uploading the commands to the base guild.');
+		this.logger.info('To upload the commands to all the guilds, use the command "/sync_commands" or start the bot with the -L parameter.');
+		await this.uploadCommands(process.env.BASE_GUILD_ID);
 	}
 
 	/* ----------------------------------------------- */
@@ -106,9 +62,9 @@ export class Bot extends Client {
 			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
 			.map(filent => filent.name);
 
-		this.log('Loading the commands!');
+		this.logger.info('Loading the commands!');
 		for (const command of commands) {
-			this.log(`\t command: ${command}`);
+			this.logger.info(`\t command: ${command}`);
 			const data = require(`${commandsPath}/${command}`);
 			this.commands.set(data.data.name, data);
 		}
@@ -124,9 +80,9 @@ export class Bot extends Client {
 			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
 			.map(filent => filent.name);
 
-		this.log('Loading the events!');
+		this.logger.info('Loading the events!');
 		for (const event of events) {
-			this.log(`\t event: ${event}`);
+			this.logger.info(`\t event: ${event}`);
 
 			const data = require(`${eventsPath}/${event}`);
 			const dataExc = async (...args: any[]) => { await data.execute(...args, this); };
@@ -144,7 +100,7 @@ export class Bot extends Client {
 	 * Upload the commands to either a specific guild or all the guilds.
 	 */
 	async uploadCommands(targetGuildId?: discordId) {
-		this.log('The commands will be refreshed in ' + (targetGuildId
+		this.logger.info('The commands will be refreshed in ' + (targetGuildId
 			? `the guild '${targetGuildId}'.`
 			: 'all the guilds.'
 		));
@@ -152,22 +108,22 @@ export class Bot extends Client {
 		const commands: ApplicationCommandDataResolvable[] = [];
 		this.commands.map(command => {
 			commands.push(command.data.toJSON());
-			this.log(`Loading the commmand: ${command.data.toJSON().name}`);
+			this.logger.info(`Loading the commmand: ${command.data.toJSON().name}`);
 		});
 
 		const rest = new REST({ version: '10' }).setToken(this.token);
 
-		this.log(`Started refreshing ${this.commands.size} application (/) commands!`);
+		this.logger.info(`Started refreshing ${this.commands.size} application (/) commands!`);
 		try {
 			await rest.put(
 				Routes.applicationGuildCommands(this.user.id, targetGuildId),
 				{ body: commands },
 			);
 
-			this.log(`Finished refreshing ${this.commands.size} application (/) commands!`);
+			this.logger.info(`Finished refreshing ${this.commands.size} application (/) commands!`);
 		}
 		catch (error) {
-			this.log('An error occured while refreshing the application (/) commands!', 2);
+			this.logger.info('An error occured while refreshing the application (/) commands!', 2);
 			console.error(error);
 		}
 	}

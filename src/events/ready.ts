@@ -10,5 +10,5 @@ export const name = 'ready';
  * @param client The bot's client.
  */
 export async function execute(client: Bot) {
-	client.log('Client connected !');
+	client.logger.info('Client connected !');
 }
