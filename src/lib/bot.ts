@@ -64,7 +64,7 @@ export class Bot extends Client {
 		for (const command of commands) {
 			this.logger.info(`\t command: ${command}`);
 			const data = require(`${commandsPath}/${command}`);
-			this.commands.set(data.data.name, data);
+			this.commands.set(data.command.name, data);
 		}
 	}
 
