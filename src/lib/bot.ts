@@ -18,7 +18,11 @@ export class Bot extends Client {
 	public readonly cache: typeof NodeCache;
 
 	// Logger for the bot.
-	public readonly logger = pino({});
+	public readonly logger = pino({
+		transport: {
+			target: 'pino-pretty',
+		},
+	});
 
 	// Array used to store the commands and their handlers.
 	public commands: commandsArray;
