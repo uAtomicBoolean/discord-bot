@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "tsc && tsc-alias",
 		"start": "npm run build && node dist/index.js",
-		"dev": "ts-node-dev -r tsconfig-paths/register src | npx pino-pretty",
+		"dev": "ts-node-dev -r tsconfig-paths/register src",
 		"up_cmd": "npm run build && node dist/index.js -l",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
