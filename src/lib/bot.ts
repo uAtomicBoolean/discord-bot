@@ -13,7 +13,7 @@ export class Bot extends Client {
 	// not src (and the opposite) when running the code after compilation.
 	private static readonly _srcPath = `${__dirname}/..`;
 
-	// A simple cache usefull to store temporary data.
+	// A simple cache useful to store temporary data.
 	// It is configured to store the data for 1 day before deleting them.
 	public readonly cache: typeof NodeCache;
 
