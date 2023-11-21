@@ -1,4 +1,4 @@
-# discord-bot-template 
+# discord-bot
 
 A simple discord bot template.  
 Don't forget to install the necessary packages with `npm install` and to update them with `npm update`.  
