@@ -109,8 +109,8 @@ export class Bot extends Client {
 
 		const commands: ApplicationCommandDataResolvable[] = [];
 		this.commands.map(command => {
-			commands.push(command.data.toJSON());
-			this.logger.info(`Loading the commmand: ${command.data.toJSON().name}`);
+			commands.push(command.command.toJSON());
+			this.logger.info(`Loading the commmand: ${command.command.toJSON().name}`);
 		});
 
 		const rest = new REST({ version: '10' }).setToken(this.token);
