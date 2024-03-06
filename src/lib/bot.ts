@@ -1,8 +1,7 @@
+import { commandsArray, discordId } from '@lib/types';
+import { ApplicationCommandDataResolvable, Client, ClientOptions, Collection, REST, Routes } from 'discord.js';
 import fs from 'fs';
 import pino from 'pino';
-import { discordId } from '@lib/types';
-import { commandsArray } from '@lib/types';
-import { Client, ClientOptions, Collection, ApplicationCommandDataResolvable, REST, Routes } from 'discord.js';
 
 
 const NodeCache = require('node-cache');
@@ -39,22 +38,30 @@ export class Bot extends Client {
 	}
 
 	/**
-	 * Starts the bot with a log.
-	 */
+     * Starts the bot with a log.
+     */
 	async start() {
 		this.logger.info('Starting the bot.');
-		await super.login(process.env.TOKEN);
-		this.logger.info('Uploading the commands to the base guild.');
-		this.logger.info('To upload the commands to all the guilds, use the command "/sync_commands" or start the bot with the -L parameter.');
-		await this.uploadCommands(process.env.BASE_GUILD_ID);
+		const startStatus = { started: null, message: '' };
+		await super.login(process.env.TOKEN).then(
+			(value) => {
+				startStatus.started = true;
+			},
+			(reason) => {
+				startStatus.started = false;
+				startStatus.message = reason.message;
+			},
+		);
+		return startStatus;
 	}
 
 	/* ----------------------------------------------- */
 	/* ASSETS                                          */
+
 	/* ----------------------------------------------- */
 	/**
-	 * Load the commands handlers in the bot.
-	 */
+     * Load the commands handlers in the bot.
+     */
 	loadCommands() {
 		const commandsPath = `${Bot._srcPath}/commands`;
 
@@ -73,8 +80,8 @@ export class Bot extends Client {
 	}
 
 	/**
-	 * Loads the events handlers in the bot.
-	 */
+     * Loads the events handlers in the bot.
+     */
 	loadEvents() {
 		const eventsPath = `${Bot._srcPath}/events`;
 
@@ -87,7 +94,9 @@ export class Bot extends Client {
 			this.logger.info(`\t event: ${event}`);
 
 			const data = require(`${eventsPath}/${event}`);
-			const dataExc = async (...args: any[]) => { await data.execute(...args, this); };
+			const dataExc = async (...args: any[]) => {
+				await data.execute(...args, this);
+			};
 
 			if (data.once) {
 				this.once(data.name, dataExc);
@@ -99,8 +108,8 @@ export class Bot extends Client {
 	}
 
 	/**
-	 * Upload the commands to either a specific guild or all the guilds.
-	 */
+     * Upload the commands to either a specific guild or all the guilds.
+     */
 	async uploadCommands(targetGuildId?: discordId) {
 		this.logger.info('The commands will be refreshed in ' + (targetGuildId
 			? `the guild '${targetGuildId}'.`
