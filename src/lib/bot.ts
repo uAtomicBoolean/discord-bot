@@ -65,10 +65,8 @@ export class Bot extends Client {
 	loadCommands() {
 		const commandsPath = `${Bot._srcPath}/commands`;
 
-		// Filtering the files to avoid the .map files.
-		// These files are used by the Typescript debugger.
 		const commands = fs.readdirSync(commandsPath, { withFileTypes: true })
-			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
+			.filter(filent => filent.isFile())
 			.map(filent => filent.name);
 
 		this.logger.info('Loading the commands!');
@@ -86,7 +84,7 @@ export class Bot extends Client {
 		const eventsPath = `${Bot._srcPath}/events`;
 
 		const events = fs.readdirSync(eventsPath, { withFileTypes: true })
-			.filter(filent => filent.isFile() && !filent.name.endsWith('.map'))
+			.filter(filent => filent.isFile())
 			.map(filent => filent.name);
 
 		this.logger.info('Loading the events!');
