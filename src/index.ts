@@ -1,8 +1,7 @@
 import { Bot } from '@lib/bot';
 import dotenv from 'dotenv';
 
-// TODO Add your .env path here (ex: src/.env.dev).
-dotenv.config({ path: '' });
+dotenv.config({ path: '.env' });
 
 // TODO Add your intents and partials.
 const client = new Bot({
@@ -12,9 +11,6 @@ const client = new Bot({
 
 
 (async () => {
-	client.logger.info('To load the commands to the base guild, use the option \'-l\'.');
-	client.logger.info('To load the commands globally, use the option \'-L\' or the \'/sync_commands\' command.');
-
 	const startStatus = await client.start();
 	if (startStatus.started) {
 		client.logger.info('Bot successfully started.');
@@ -22,9 +18,15 @@ const client = new Bot({
 	else {
 		client.logger.error('An error occured while starting the bot.');
 		client.logger.error(startStatus.message);
+		process.exit(1);
 	}
 
-	if (process.argv.includes('-L')) {
-		await client.uploadCommands();
-	}
+	// As I don't remember if the bot automatically load the commands to a 
+	// guild when joining, this bit of code is commented.
+	// if (!!process.env.BASE_GUILD_ID) {
+	// 	await client.uploadCommands(process.env.BASE_GUILD_ID);
+	// }
+	// else {
+	// 	await client.uploadCommands();
+	// }
 })();

@@ -44,7 +44,7 @@ export class Bot extends Client {
 		this.logger.info('Starting the bot.');
 		const startStatus = { started: null, message: '' };
 		await super.login(process.env.TOKEN).then(
-			(value) => {
+			() => {
 				startStatus.started = true;
 			},
 			(reason) => {
@@ -143,8 +143,8 @@ export class Bot extends Client {
 			this.logger.info(`Finished refreshing ${this.commands.size} application (/) commands!`);
 		}
 		catch (error) {
-			this.logger.info('An error occured while refreshing the application (/) commands!', 2);
-			console.error(error);
+			this.logger.error('An error occured while refreshing the application (/) commands!');
+			this.logger.error(error.message);
 		}
 	}
 }
