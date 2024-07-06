@@ -20,3 +20,12 @@ Set your .env file with your environment variables :
 
 You should also change the name, description, author and repo link in the `package.json`.  
 
+## Development
+You can add your commands and events in the `src/commands` and `src/events` folders so that the bot will automatically load them when starting.  
+The following are required by the bot to load the commands and events :
+- The variable/constant `command` that contains the command's builder.
+- The variable/constant `name` that contains the event's name.
+- The asynchronous function `execute` for both the events and commands.
+
+A logger (pino) is available through the client with the `client.logger` attribute.  
+This logger is configured to use `pino-pretty` to make the logs readable but you can remove it to have the logs with a JSON format that comes by default with `pino`.  
